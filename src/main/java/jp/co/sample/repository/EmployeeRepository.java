@@ -14,7 +14,7 @@ import jp.co.sample.domain.Employee;
 
 /**
  * @author taro
- *従業員のリポジトリを表すクラス
+ *従業員情報を操作するリポジトリ.
  */
 @Repository
 public class EmployeeRepository {
@@ -32,7 +32,7 @@ public class EmployeeRepository {
 		employee.setImage(rs.getString("image"));
 		employee.setGender(rs.getString("gender"));
 		employee.setHireDate(rs.getDate("hire_date"));
-		employee.setMailAddress(rs.getString("email_address"));
+		employee.setMailAddress(rs.getString("mail_address"));
 		employee.setZipCode(rs.getString("zip_code"));
 		employee.setAddress(rs.getString("address"));
 		employee.setTelephone(rs.getString("telephone"));
@@ -47,10 +47,10 @@ public class EmployeeRepository {
 	 * 入社日順に従業員の全件検索を行う。
 	 */
 	public List<Employee> findAll(){
-		String sql = "SELECT id,name,gender,hire_date,email_address,zip_code,address,telephone,alary,characteristics,dependents_count" + 
-				"FROM employees ORDER BY hire_date ASC;";
-		List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
-		return employeeList;
+			String sql = "SELECT id,name,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count,image FROM employees ORDER BY hire_date ASC;";
+			List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
+			return employeeList;
+			
 	}
 	
 	/**
@@ -59,8 +59,7 @@ public class EmployeeRepository {
 	 * 主キーから従業員情報を取得する。（従業員が存在しない場合はspringが自動的に例外を発生する。）
 	 */
 	public Employee load(Integer id) {
-		String sql = "SELECT id,name,gender,hire_date,email_address,zip_code,address,telephone,alary,characteristics,dependents_count" + 
-				"FROM employees WHERE id = :id;";
+		String sql = "SELECT id,name,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count,image FROM employees WHERE id = :id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		Employee employee = template.queryForObject(sql, param, EMPLOYEE_ROW_MAPPER);
 		return employee;

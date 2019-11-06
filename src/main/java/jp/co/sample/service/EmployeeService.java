@@ -21,7 +21,7 @@ public class EmployeeService {
 	
 	/**
 	 * @return
-	 * 従業員のリポジトリを使用し、従業員の全件検索を行う。
+	 * 従業員のリポジトリを操作するクラス.
 	 */
 	public List<Employee> findAll(){
 		List<Employee> employeeList = repository.findAll();
@@ -31,7 +31,7 @@ public class EmployeeService {
 	/**
 	 * @param id
 	 * @return
-	 * 従業員のリポジトリを使用し、従業員のid検索を行う。
+	 * 従業員のリポジトリを操作するクラス.
 	 */
 	public Employee load(Integer id) {
 		Employee employee = repository.load(id);
@@ -39,10 +39,28 @@ public class EmployeeService {
 	}
 	
 	/**
-	 * @param employee
 	 * 従業員のリポジトリを使用し、従業員の扶養人数を更新する。
+	 * @param employee　更新する従業員
 	 */
 	public void update(Employee employee) {
 		repository.update(employee);
 	}
+	
+	/**
+	 * 従業員のリポジトリを使用し、従業員一覧を取得
+	 * @return　従業員一覧
+	 */
+	public List<Employee> showList(){
+		return repository.findAll();
+	}
+	
+	/**
+	 * @param id 従業員のid
+	 * @return	従業員情報
+	 */
+	public Employee showDetail(Integer id) {
+		return repository.load(id);
+	}
+	
+	
 }

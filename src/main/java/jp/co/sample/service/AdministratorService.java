@@ -37,5 +37,17 @@ public class AdministratorService {
 		return administrator;
 	}
 	
+	/**
+	 * @param mailAddress
+	 * @param password
+	 * @return
+	 * 管理者のリポジトリを使用し、ログインに使用するメールアドレスとパスワードで管理者情報を取得する。
+	 */
+	public Administrator login(String mailAddress, String password) {
+		return repository.findByMailAddressAndPassword(mailAddress, password);
+	}
+	
+	
+	
 
 }

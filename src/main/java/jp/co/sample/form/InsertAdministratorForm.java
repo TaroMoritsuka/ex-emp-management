@@ -1,5 +1,10 @@
 package jp.co.sample.form;
 
+/**
+ * 管理者情報登録に使用されるフォーム.
+ * @author taro
+ *
+ */
 public class InsertAdministratorForm {
 	/**登録する管理者の名前*/
 	private String name;
