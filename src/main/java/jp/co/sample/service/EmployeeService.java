@@ -1,5 +1,6 @@
 package jp.co.sample.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +20,24 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository repository;
 	
-	/**
-	 * @return
-	 * 従業員のリポジトリを操作するクラス.
-	 */
-	public List<Employee> findAll(){
-		List<Employee> employeeList = repository.findAll();
-		return employeeList;
-	}
+//	/**
+//	 * @return
+//	 * 従業員のリポジトリを操作するクラス.
+//	 */
+//	public List<Employee> findAll(){
+//		List<Employee> employeeList = repository.findAll();
+//		return employeeList;
+//	}
 	
-	/**
-	 * @param id
-	 * @return
-	 * 従業員のリポジトリを操作するクラス.
-	 */
-	public Employee load(Integer id) {
-		Employee employee = repository.load(id);
-		return employee;
-	}
+//	/**
+//	 * @param id
+//	 * @return
+//	 * 従業員のリポジトリを操作するクラス.
+//	 */
+//	public Employee load(Integer id) {
+//		Employee employee = repository.load(id);
+//		return employee;
+//	}
 	
 	/**
 	 * 従業員のリポジトリを使用し、従業員の扶養人数を更新する。
@@ -62,5 +63,34 @@ public class EmployeeService {
 		return repository.load(id);
 	}
 	
+	/**
+	 * 従業員一覧のデータの件数を取得する.
+	 * @return 従業員一覧のデータの件数を返す。
+	 */
+	public int countData() {
+		return repository.findAllCount();
+	}
 	
+	public List<Integer> pageList(){
+		Integer countData = repository.findAllCount();
+		List<Integer> pageNum = new ArrayList<>();
+		if( countData / 10 == 0) {
+			for(int i = 1; i<=countData; i++) {
+				pageNum.add(i);
+			} 
+		} else {
+			for(int i = 1; i <= countData/10+1; i++) {
+				pageNum.add(i);
+			}
+		}
+		return pageNum;
+	}
+	
+	public List<Employee> findAllPageNum(Integer pageNum){
+		return repository.findAllPageNum(pageNum);
+	}
+	
+	
+	
+
 }

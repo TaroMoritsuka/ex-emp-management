@@ -43,20 +43,36 @@ public class EmployeeRepository {
 	};
 	
 	/**
+	 * 入社日順に従業員の全件検索を行う.
+	 * 
 	 * @return 従業員のリストを返す。(従業員が存在しない場合はサイズ0件の従業員一覧を返す。)
-	 * 入社日順に従業員の全件検索を行う。
 	 */
+	
 	public List<Employee> findAll(){
 			String sql = "SELECT id,name,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count,image FROM employees ORDER BY hire_date ASC;";
 			List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
 			return employeeList;
-			
 	}
 	
+	//ページネーション実装
+	public List<Employee> findAllPageNum(Integer pageNum){
+		String sql = "SELECT id,name,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count,image FROM employees ORDER BY id ASC LIMIT 10 OFFSET :page;";
+		//String page = Integer.toString(pageNum);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("page", pageNum);
+		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+	}
+	
+	public Integer findAllCount() {
+		String sql = "SELECT COUNT(*) FROM employees;";
+		SqlParameterSource param = new MapSqlParameterSource();
+		return template.queryForObject(sql, param, Integer.class);
+	}
+	
+	
 	/**
-	 * @param id
-	 * @return 従業員を返す。
-	 * 主キーから従業員情報を取得する。（従業員が存在しない場合はspringが自動的に例外を発生する。）
+	 * 主キーから従業員情報を取得する.
+	 * @param id ID
+	 * @return 従業員を返す。（従業員が存在しない場合はspringが自動的に例外を発生する。）
 	 */
 	public Employee load(Integer id) {
 		String sql = "SELECT id,name,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count,image FROM employees WHERE id = :id;";
@@ -66,14 +82,17 @@ public class EmployeeRepository {
 	}
 	
 	/**
-	 * @param employee
-	 * 従業員の扶養人数を更新する。
+	 * 従業員の扶養人数を更新する.
+	 * 
+	 * @param employee　従業員情報
 	 */
 	public void update(Employee employee) {
 		String sql = "UPDATE employees SET dependents_count = :dependentsCount WHERE id = :id;";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
 		template.update(sql, param);
 	}
+	
+	
 	
 	
 	

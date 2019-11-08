@@ -75,14 +75,24 @@
 					</thead>
 					<tbody>
 						<tr th:each="employee : ${employeeList}">
-							<td><a href="detail.html" th:href="@{'/employee/showDetail?id='+${employee.id}}"> <span th:text="${employee.name}">山田太郎</span>
+							<td><a href="detail.html"
+								th:href="@{'/employee/showDetail?id='+${employee.id}}"> <span
+									th:text="${employee.name}">山田太郎</span>
 							</a></td>
 							<td><span th:text="${employee.hireDate}">2016/12/1</span></td>
 							<td><span th:text="${employee.dependentsCount}">3人</span></td>
 						</tr>
-						
+
 					</tbody>
 				</table>
+				<nav>
+					<ul class="pagination">
+                        <li  th:if="${index != 1}"><a href="#" aria-label="前のページへ" th:href="@{'/employee/findAllPageBack/' + ${index}}" ><span aria-hidden="true">«</span></a></li> 
+						<li  th:each="page:${pageNum}"><a th:href="@{'/employee/findAllPageNum/' + ${page}}" th:text="${page}">1</a></li>
+	                    <li  th:unless="${index == pageNum.size()}"><a href="#" aria-label="次のページへ" th:href="@{'/employee/findAllPageNext/' + ${index}}"> <span aria-hideen="true">»</span></a></li>  
+					</ul>
+				
+				</nav>
 
 
 
